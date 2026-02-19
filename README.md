@@ -38,4 +38,4 @@ cd MTProxy
 
 ## 4. Запускаем и радуемся
 
-`docker compose up -d --build`
+`docker compose up -d && docker compose logs -f`
