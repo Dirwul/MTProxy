@@ -1,0 +1,33 @@
+services:
+  mtproxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mtproxy
+    restart: unless-stopped
+
+    ports:
+      - "${PORT}:443"
+      - "${SERVICE_PORT}:8888"
+
+    command: >
+      -u mtproxy
+      -p ${SERVICE_PORT}
+      -H ${PORT}
+      -S ${MT_SECRET}
+      -M ${WORKERS}
+      --aes-pwd /data/proxy-secret /data/proxy-multi.conf
+      --nat-info ${PUBLIC_IP}:${PUBLIC_IP}
+      --allow-skip-dh
+
+    pids_limit: 2048
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+    cap_drop:
+      - ALL
+
+    security_opt:
+      - no-new-privileges:true
