@@ -5,28 +5,37 @@ services:
       dockerfile: Dockerfile
     container_name: mtproxy
     restart: unless-stopped
+    networks:
+      mtproxy_net:
+        ipv4_address: ${PRIVATE_IP}
 
     ports:
-      - "${PORT}:443"
-      - "${SERVICE_PORT}:8888"
+      - "${PORT}:${PORT}"
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
 
     command: >
       -u mtproxy
       -p ${SERVICE_PORT}
       -H ${PORT}
       -S ${MT_SECRET}
+      -M 1
       --aes-pwd /data/proxy-secret /data/proxy-multi.conf
-      --nat-info ${PUBLIC_IP}:${PUBLIC_IP}
-      --allow-skip-dh
+      --address 0.0.0.0
+      --nat-info ${PRIVATE_IP}:${PUBLIC_IP}
 
     pids_limit: 2048
     ulimits:
       nofile:
         soft: 65535
         hard: 65535
-
     cap_drop:
       - ALL
-
     security_opt:
       - no-new-privileges:true
+
+networks:
+  mtproxy_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DOCKER_NETWORK}

@@ -23,13 +23,17 @@ cd MTProxy
 
 В котором:
 
-`MT_SECRET` -- (c) 16-byte secret in hex mode, можно сгенерить командой `openssl rand -hex 16`
+`MT_SECRET` - 16 байт секрета, генерируется: `openssl rand -hex 16`
 
-`PUBLIC_IP` - публичный IP-шник, который торчит в интернет
+`PUBLIC_IP` - наш публичный IP
 
-`PORT` - (с) comma-separated list of client (HTTP) ports to listen
+`PORT` - HTTP порт
 
-`SERVICE_PORT` - (с) <port> or <sport>:<eport> sets listening port number or port range
+`SERVICE_PORT` - TCP порт
+
+`PRIVATE_IP` - IP докер контейнера
+
+`DOCKER_NETWORK` - подсеть используемая контейнером
 
 
 ## 4. Запускаем и радуемся
