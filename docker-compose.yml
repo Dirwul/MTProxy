@@ -15,7 +15,6 @@ services:
       -p ${SERVICE_PORT}
       -H ${PORT}
       -S ${MT_SECRET}
-      -M ${WORKERS}
       --aes-pwd /data/proxy-secret /data/proxy-multi.conf
       --nat-info ${PUBLIC_IP}:${PUBLIC_IP}
       --allow-skip-dh
